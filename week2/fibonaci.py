@@ -1,6 +1,6 @@
 def fibo(x):
     """
-    Input: x is int larger than 0
+    Input: x is int larger than or equal to 0
     Output: fibonaci of x
     """
     if x == 0 or x == 1:
