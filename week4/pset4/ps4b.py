@@ -100,7 +100,7 @@ def compPlayHand(hand, wordList, n):
 # Problem #6: Playing a game
 #
 #
-#def playGame(wordList):
+def playCompGame(wordList):
     """
     Allow the user to play an arbitrary number of hands.
  
@@ -124,8 +124,28 @@ def compPlayHand(hand, wordList, n):
 
     wordList: list (string)
     """
-    # TO DO... <-- Remove this comment when you code this function
-    #print("playGame not yet implemented.") # <-- Remove this when you code this function
+    hand = None
+    while True:
+        user_input = input("Enter n to deal a new hand, r to replay the last hand, or e to end game: ")
+        if user_input in ['n', 'r', 'e']:
+            if user_input == 'r' and hand == None:
+                print("You have not played a hand yet. Please play a new hand first!")
+            elif user_input == 'e':
+                break
+            else:
+                n = 7
+                hand = dealHand(n)
+                # prompt user for letter to signify if its a user play or computer play
+                while True:
+                    second_input = input("Enter u for user play and c for computer play: ")
+                    if second_input in ['u', 'c']:
+                        break
+                if second_input == 'u':
+                    compPlayHand(hand, wordList, n)
+                else:
+                    playHand(hand, wordList, n)
+        else:
+            print("Invalid input, please try again")
 
         
 #
@@ -133,6 +153,6 @@ def compPlayHand(hand, wordList, n):
 #
 if __name__ == '__main__':
     wordList = loadWords()
-    playGame(wordList)
+    playCompGame(wordList)
 
 
