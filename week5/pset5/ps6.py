@@ -102,7 +102,13 @@ class Message(object):
         Returns: a dictionary mapping a letter (string) to 
                  another letter (string). 
         '''
-        pass #delete this line and replace with your code here
+        lower_alphabet = 2 * string.ascii_lowercase
+        upper_alphabet = 2 * string.ascii_uppercase
+        shift_dict = {}
+        for i in range(len(lower_alphabet)//2):
+            shift_dict[lower_alphabet[i]] = lower_alphabet[i + shift]
+            shift_dict[upper_alphabet[i]] = upper_alphabet[i + shift]
+        return shift_dict
 
     def apply_shift(self, shift):
         '''
@@ -116,7 +122,15 @@ class Message(object):
         Returns: the message text (string) in which every character is shifted
              down the alphabet by the input shift
         '''
-        pass #delete this line and replace with your code here
+        shift_dict = self.build_shift_dict(shift)
+        message = ''
+        for letter in self.message_text:
+            try:
+                message += shift_dict[letter]
+            except:
+                message += letter
+        return message
+
 
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
@@ -136,7 +150,11 @@ class PlaintextMessage(Message):
         Hint: consider using the parent class constructor so less 
         code is repeated
         '''
-        pass #delete this line and replace with your code here
+        Message.__init__(self, text)
+        self.shift = shift
+        self.encrypting_dict = Message.build_shift_dict(self, shift)
+        self.message_text_encrypted = Message.apply_shift(self, shift)
+        
 
     def get_shift(self):
         '''
@@ -144,7 +162,7 @@ class PlaintextMessage(Message):
         
         Returns: self.shift
         '''
-        pass #delete this line and replace with your code here
+        return self.shift
 
     def get_encrypting_dict(self):
         '''
@@ -152,7 +170,7 @@ class PlaintextMessage(Message):
         
         Returns: a COPY of self.encrypting_dict
         '''
-        pass #delete this line and replace with your code here
+        return self.encrypting_dict.copy()
 
     def get_message_text_encrypted(self):
         '''
@@ -160,7 +178,7 @@ class PlaintextMessage(Message):
         
         Returns: self.message_text_encrypted
         '''
-        pass #delete this line and replace with your code here
+        return self.message_text_encrypted
 
     def change_shift(self, shift):
         '''
@@ -173,7 +191,10 @@ class PlaintextMessage(Message):
 
         Returns: nothing
         '''
-        pass #delete this line and replace with your code here
+        if shift >= 0 and shift < 26:
+            self.shift = shift
+            self.encrypting_dict = Message.build_shift_dict(self, shift)
+            self.message_text_encrypted = Message.apply_shift(self, shift)
 
 
 class CiphertextMessage(Message):
@@ -207,12 +228,17 @@ class CiphertextMessage(Message):
         '''
         pass #delete this line and replace with your code here
 
+# my test
+mess = Message('hello')
+mess.build_shift_dict(1)
+print(mess.apply_shift(1))
+
 #Example test case (PlaintextMessage)
-plaintext = PlaintextMessage('hello', 2)
+""" plaintext = PlaintextMessage('hello', 2)
 print('Expected Output: jgnnq')
 print('Actual Output:', plaintext.get_message_text_encrypted())
     
 #Example test case (CiphertextMessage)
 ciphertext = CiphertextMessage('jgnnq')
 print('Expected Output:', (24, 'hello'))
-print('Actual Output:', ciphertext.decrypt_message())
+print('Actual Output:', ciphertext.decrypt_message()) """
